@@ -89,7 +89,7 @@ end
 function Courageous:SpellCast(evTime, spellid)
 	-- Ignore casts when not in clearcasting or combat
 	if not self.cc or not self.incombat then return end
-	if not (evTime > self.cc_time) then return end
+	if evTime <= self.cc_time then return end
 	
 	-- Checks that the spell costs mana
 	local _, _, _, _, _, powerType = GetSpellInfo(spellid)
@@ -135,7 +135,7 @@ function Courageous:OnTooltipShow()
 	local uptime = (Courageous.uptime / length) * 100
 	
 	local length_text
-	if length > 59 then
+	if length >= 60 then
 		local minutes = math.floor(length / 60)
 		local seconds = length - (minutes * 60)
 		length_text = string.format("%d min %d sec", minutes, seconds)
