@@ -29,8 +29,9 @@ local Courageous = {
 
 -- Updates the total mana saved counter
 function Courageous:UpdateTotal()
-	self.saved = 0
+	if self.cc then return end
 	
+	self.saved = 0
 	for spell, details in pairs(self.details) do
 		local _, _, _, cost = GetSpellInfo(spell)
 		details.cost = cost
