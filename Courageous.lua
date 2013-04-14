@@ -155,7 +155,9 @@ function Courageous:OnTooltipShow()
 		local cost = details.cost
 		local saved = count * cost
 		
-		table.insert(spells, { id = spellid, count = count, cost = cost, saved = saved })
+		if saved > 0 then
+			table.insert(spells, { id = spellid, count = count, cost = cost, saved = saved })
+		end
 	end
 	
 	if #spells < 1 then return end
