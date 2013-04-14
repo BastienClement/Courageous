@@ -1,0 +1,5 @@
+## Interface: 50200
+## Title: Courageous
+## Notes: LDB tracker for mana saved by Courageous Primal Diamond
+
+Courageous.lua
