@@ -17,7 +17,7 @@ local buffIDs = {
 }
 
 local clearcastingID = buffIDs[select(3, UnitClass("player"))]
-if not clearcastingID or true then
+if not clearcastingID then
 	-- Class cannot proc Clearcasting
 	local function noop() end
 	LDB:NewDataObject("Courageous", { type = "data source", text = "N/A", OnClick = noop, OnTooltipShow = noop }) -- Stub LDB object
