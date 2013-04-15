@@ -121,6 +121,7 @@ function Courageous:SpellCast(evTime, spellid)
 	spellDetails.count = spellDetails.count + 1
 end
 
+-- Reset all state variables
 function Courageous:Reset()
 	self.saved = 0
 	self.count = 0
@@ -130,10 +131,12 @@ function Courageous:Reset()
 	wipe(self.details)
 end
 
+-- No click handler
 function Courageous:OnClick()
 	return false
 end
 
+-- Display the tooltip with detailed informations
 function Courageous:OnTooltipShow()
 	local length
 	if Courageous.incombat then
@@ -201,7 +204,6 @@ f:RegisterEvent("PLAYER_REGEN_DISABLED")
 f:RegisterEvent("PLAYER_REGEN_ENABLED")
 
 f:SetScript("OnEvent", function(_, event, ...)
-
 	if event == "COMBAT_LOG_EVENT_UNFILTERED" then
 		local evTime, ev = ...
 		local spellid = select(12, ...)
@@ -233,6 +235,6 @@ f:SetScript("OnEvent", function(_, event, ...)
 	end
 end)
 
--- Register to LDB
+-- Register with LDB
 
 LDB:NewDataObject("Courageous", Courageous)
