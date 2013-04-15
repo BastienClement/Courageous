@@ -6,6 +6,24 @@ if not LDB then
 	return
 end
 
+-- Find out the correct spell id for Clearcasting
+
+local buffIDs = {
+	[2]  = 137288, -- Paladin
+	[5]  = 137323, -- Priest
+	[7]  = 137326, -- Shaman (assumed)
+	[10] = 137331, -- Monk (assumed)
+	[11] = 137247  -- Druid
+}
+
+local clearcastingID = buffIDs[select(3, UnitClass("player"))]
+if not clearcastingID or true then
+	-- Class cannot proc Clearcasting
+	local function noop() end
+	LDB:NewDataObject("Courageous", { type = "data source", text = "N/A", OnClick = noop, OnTooltipShow = noop }) -- Stub LDB object
+	return
+end
+
 -- Courageous Core & UI
 
 local Courageous = {
@@ -190,7 +208,7 @@ f:SetScript("OnEvent", function(_, event, ...)
 		
 		if ev == "SPELL_AURA_APPLIED" or ev == "SPELL_AURA_REMOVED" then
 			-- I'm only interested in Clearcasting
-			if spellid ~= 137288 then return end
+			if spellid ~= clearcastingID then return end
 			
 			-- And only when it's on myself
 			local guid = select(8, ...)
