@@ -93,6 +93,12 @@ function Courageous:EnterClearcasting(evTime)
 	wipe(self.cc_buffer)
 end
 
+-- Handle when clearcasting is refreshed without fading
+function Courageous:ResfreshClearcasting()
+	if not self.cc then return end
+	self.count = self.count + 1
+end
+
 -- Called when the clearcasting buff wears off
 function Courageous:ExitClearcasting()
 	if not self.cc then return end
@@ -208,7 +214,7 @@ f:SetScript("OnEvent", function(_, event, ...)
 		local evTime, ev = ...
 		local spellid = select(12, ...)
 		
-		if ev == "SPELL_AURA_APPLIED" or ev == "SPELL_AURA_REMOVED" then
+		if ev == "SPELL_AURA_APPLIED" or ev == "SPELL_AURA_REMOVED" or ev == "SPELL_AURA_REFRESH" then
 			-- I'm only interested in Clearcasting
 			if spellid ~= clearcastingID then return end
 			
@@ -218,8 +224,10 @@ f:SetScript("OnEvent", function(_, event, ...)
 			
 			if ev == "SPELL_AURA_APPLIED" then
 				Courageous:EnterClearcasting(evTime)
-			else
+			elseif ev == "SPELL_AURA_REMOVED" then
 				Courageous:ExitClearcasting()
+			else
+				Courageous:ResfreshClearcasting()
 			end
 		elseif ev == "SPELL_CAST_SUCCESS" then
 			-- Any cast done by myself
