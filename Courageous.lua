@@ -85,8 +85,6 @@ end
 
 -- Called when the clearcasting buff is applied on ourselve
 function Courageous:EnterClearcasting(evTime)
-	if not self.incombat then return end
-	
 	self.cc = true
 	self.cc_start = GetTime()
 	self.cc_time = evTime
@@ -133,7 +131,6 @@ function Courageous:Reset()
 	self.count = 0
 	self.uptime = 0
 	self.incombat = false
-	self.cc = false
 	wipe(self.details)
 end
 
