@@ -24,6 +24,37 @@ if not clearcastingID then
 	return
 end
 
+-- Hack for Monk spells having bad energy type and mana costs.
+if select(3, UnitClass("player")) == 10 then
+	local monkCosts = {
+		[115693] = 24000, -- Jab
+		[117952] = 9420,  -- CKL (Aprox.)
+		[115450] = 7800,  -- Detox
+		[116095] = 2100,  -- Disable
+		[115072] = 7500,  -- Expel Harm
+		[115460] = 6000,  -- Healing Sphere
+		[115921] = 18000, -- Legacy of the Emeror
+		[116849] = 14850, -- Life Cocoon
+		[115078] = 9000,  -- Paralysis
+		[115151] = 17550, -- Renewing Mist
+		[115310] = 23100, -- Revival
+		[115175] = 6000,  -- Soothing Mist (Aprox.)
+		[101546] = 21450, -- SCK
+		[116694] = 26400, -- Surging Mist
+		[119996] = 1500,  -- Trancendence: Transfer
+	}
+
+	local _GetSpellInfo = GetSpellInfo
+	local function GetSpellInfo(spellid)
+		local a, b, c, cost, d, powerType, e, f, g = _GetSpellInfo(spellid)
+		if (cost == 0 or powerType == 3) and monkCosts[spellid] then
+			powerType = 0
+			cost = monkCosts[spellid]
+		end
+		return a, b, c, cost, d, powerType, e, f, g
+	end
+end
+
 -- Courageous Core & UI
 
 local Courageous = {
