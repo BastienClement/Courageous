@@ -25,9 +25,15 @@ if not clearcastingID then
 end
 
 -- Hack for Monk spells having bad energy type and mana costs.
+local GetSpellInfo = GetSpellInfo
 if select(3, UnitClass("player")) == 10 then
 	local monkCosts = {
-		[115693] = 24000, -- Jab
+		[115693] = 24000, -- Jab (mace)
+		[108557] = 24000, -- Jab (staff)
+		[115698] = 24000, -- Jab (polearm)
+		[115695] = 24000, -- Jab (sword)
+		[115687] = 24000, -- Jab (axe)
+		[100780] = 24000, -- Jab (fist)
 		[117952] = 9420,  -- CKL (Aprox.)
 		[115450] = 7800,  -- Detox
 		[116095] = 2100,  -- Disable
@@ -45,7 +51,7 @@ if select(3, UnitClass("player")) == 10 then
 	}
 
 	local _GetSpellInfo = GetSpellInfo
-	local function GetSpellInfo(spellid)
+	function GetSpellInfo(spellid)
 		local a, b, c, cost, d, powerType, e, f, g = _GetSpellInfo(spellid)
 		if (cost == 0 or powerType == 3) and monkCosts[spellid] then
 			powerType = 0
